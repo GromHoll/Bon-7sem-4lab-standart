@@ -1,6 +1,13 @@
+/* Host state values */
+enum hostStateOptions {
+    SLEEP     = 0,
+    AVAILIBLE = 1
+};
+
+
 /* Types */
-typedef int  hostState;
-typedef int  timeout;
+typedef hostStateOptions  hostState;
+typedef long  timeout;
 typedef char hostName[16];
 
 /* Structures */
@@ -10,16 +17,10 @@ struct hostInfo {
 };
 struct hostStatus {
      hostInfo host;
-     timeout duration;
+     timeout lastPing;
 };
 
-hostStatus hostsList<>;
-
-/* Host state values */
-enum hostStateOptions {
-    SLEEP     = 0,
-    AVAILIBLE = 1
-};
+typedef hostStatus hostsList<>;
 
 /* Timeout constants in sec */
 const STANDART_TIMEOUT = 60;
@@ -28,13 +29,13 @@ const MANUAL_FORCE_TIMEOUT = 0;
 /* API */
 program PINGER {
     version PINGER_VERS_1 {
-        hostState
+        hostStatus
             getHostState(hostName) = 0;
 
         hostsList
             getAllHostStates() = 1;
 
-        hostState
+        hostStatus
             forcePingHost(hostName) = 2;
 
         hostsList
@@ -50,6 +51,6 @@ program PINGER {
             addHost(hostInfo) = 6;
 
         void
-            remoteHost(hostName) = 7;    
+            remoteHost(hostName) = 7;
     } = 1;
 } = 200000;
