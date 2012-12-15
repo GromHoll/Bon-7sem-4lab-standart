@@ -17,7 +17,7 @@ struct hostInfo {
 };
 struct hostStatus {
      hostInfo host;
-     timeout lastPing;
+     hostState status;
 };
 
 typedef hostStatus hostsList<>;
